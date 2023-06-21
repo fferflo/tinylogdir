@@ -1,5 +1,7 @@
 # tinylogdir
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![PyPI version shields.io](https://img.shields.io/pypi/v/tinylogdir.svg)](https://pypi.python.org/pypi/tinylogdir/)
+
 > A lightweight library for creating output directories of python scripts.
 
 #### Why not just `os.makedirs`?
