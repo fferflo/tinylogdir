@@ -57,7 +57,7 @@ class LogDir:
         config["pid"] = os.getpid()
         config["user"] = getpass.getuser()
 
-        current_path = os.path.dirname(sys.argv[0])
+        current_path = os.path.dirname(os.path.abspath(sys.argv[0]))
         while current_path != "":
             if os.path.isdir(os.path.join(current_path, ".git")):
                 out, err = subprocess.Popen(["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=current_path).communicate()
