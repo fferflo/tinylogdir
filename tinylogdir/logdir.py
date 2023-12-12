@@ -58,7 +58,7 @@ class LogDir:
         config["user"] = getpass.getuser()
 
         current_path = os.path.dirname(os.path.abspath(sys.argv[0]))
-        while current_path != "":
+        while current_path != "" and current_path != "/":
             if os.path.isdir(os.path.join(current_path, ".git")):
                 out, err = subprocess.Popen(["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=current_path).communicate()
                 if err != 0:
@@ -68,7 +68,7 @@ class LogDir:
 
                     if store_git_diff:
                         patch_file = os.path.join(path, "gitdiff.patch")
-                        os.system(f"cd {current_path} && git diff HEAD > " + patch_file)
+                        out, err = subprocess.Popen(["bash", "-c", f"\"git diff -p HEAD > {patch_file}\""], stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=current_path).communicate()
                 break
             current_path = os.path.dirname(current_path)
 
