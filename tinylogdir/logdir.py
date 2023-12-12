@@ -7,7 +7,7 @@ class LogDir:
         path: The path to the log directory.
         mode: String indicating how to handle existing directories. Options: Delete (d, delete), append timestamp (t, timestamp), append counter (c, counter). Defaults to None, which prompts the user.
         environ: List of environment variables to store in the log directory. Defaults to ["CUDA_VISIBLE_DEVICES", "STY"].
-        store_git_diff: If true, the git diff is stored in the log directory. Defaults to true.
+        store_git_diff: If True, the git diff is stored in the log directory. Defaults to True.
     """
     def __init__(self, path, mode=None, environ=["CUDA_VISIBLE_DEVICES", "STY"], store_git_diff=True):
         if not mode in ["d", "delete", "t", "timestamp", "c", "counter"] and not mode is None:
@@ -60,7 +60,7 @@ class LogDir:
         current_path = os.path.dirname(os.path.abspath(sys.argv[0]))
         while current_path != "" and current_path != "/":
             if os.path.isdir(os.path.join(current_path, ".git")):
-                out, err = subprocess.Popen(["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=current_path).communicate()
+                out, err = subprocess.Popen("git rev-parse HEAD", stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=current_path, shell=True).communicate()
                 if err != 0:
                     config["git"] = {}
                     config["git"]["path"] = current_path
@@ -68,7 +68,7 @@ class LogDir:
 
                     if store_git_diff:
                         patch_file = os.path.join(path, "gitdiff.patch")
-                        out, err = subprocess.Popen(["bash", "-c", f"\"git diff -p HEAD > {patch_file}\""], stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=current_path).communicate()
+                        out, err = subprocess.Popen(f"git diff -p HEAD > {patch_file}", stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=current_path, shell=True).communicate()
                 break
             current_path = os.path.dirname(current_path)
 
