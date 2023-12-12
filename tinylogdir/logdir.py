@@ -20,7 +20,7 @@ class LogDir:
                     shutil.rmtree(path)
             elif use_mode == "t" or use_mode == "timestamp":
                 def get_path_t():
-                    return path + "-" + datetime.datetime.now().replace(microsecond=0).isoformat()
+                    return path + "-" + datetime.datetime.now().replace(microsecond=0).isoformat().replace(":", "-")
                 path_t = get_path_t()
                 while os.path.isdir(path_t):
                     time.sleep(0.1)
